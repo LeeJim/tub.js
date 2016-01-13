@@ -1,0 +1,44 @@
+.tub-dialog {
+	position:fixed;
+	top:50%; left:50%;
+	width:300px; height:70px;
+	margin-top:-35px; margin-left:-150px;
+	font-family: 'MicroSoft YaHei', 'sans-serif';
+	z-index:20160111;
+}
+
+.tub-shade {
+	position:fixed;
+	width:100%;
+	top:0; bottom:0;
+	background-color:rgb(0,0,0);	
+	filter:alpha(opacity=40);
+	opacity:.4;
+	z-index:20150111;
+}
+
+.tub-close {
+	display:block;
+	position:absolute;
+	top:10px; right:10px;
+	text-decoration:none;
+	color:#d5d5d5;
+}
+
+.tub-message {
+	padding: 0 24px;
+	line-height:70px;
+	margin:0;
+}
+
+.tub-skin-default {
+	background-color:#fff;
+	color: #000;
+}
+
+.tub-skin-black {
+	background-color:#000;
+	opacity: .6;
+	filter: alpha(opacity=60);
+	color: #fff;
+}
