@@ -2,13 +2,14 @@
  * tub.js
  *
  * @author leejim 利俊
- * a simple JavaScript notification system.简单的弹框/提示
+ * a simple JavaScript notification system without jQuery 简单的弹框/提示(不依赖jQuery)
  * 2016.1.12
  */
 
 (function(global) {
 
 	var on,off,stop;
+
 	if(document.addEventListener) {
 		on = function(ele, event, fn) {
 			ele.addEventListener(event, fn, false);
@@ -36,64 +37,95 @@
 		}
 	}
 
+	var extend;
+	extend = function(destination, obj) {
+		for( i in obj) {
+			if(obj.hasOwnProperty(i) && i in destination) {
+				destination[i] = obj[i];
+			}
+		}
+	}
+
 	var dom = {
 		'shade' : '<div id="tub-shade"></div>',
-		'head' : '<div id="tub-header"><h3 id="tub-title"></h3></div>',
-		'body' : '<div id="tub-body"><p id="tub-message"></p></div>',
-		'foot' : '<div id="tub-footer"><h3 id="tub-title"></h3></div>',
-		'close' : '<a href="javascript:;" id="tub-close">X</a>',
-		'btn' : '<button id="tub-button"></button>'
+		'head' : '<div class="tub-header"><h3 class="tub-title"></h3></div>',
+		'body' : '<div class="tub-body"><p class="tub-message"></p></div>',
+		'foot' : '<div class="tub-footer"><h3 class="tub-title"></h3></div>',
+		'close' : '<a href="javascript:;" class="tub-close">X</a>',
+		'btn' : '<button class="tub-button"></button>'
 	};
 
-	var bone,shade;
+	var shade;
 	var i = function(id) { return document.getElementById(id); };
 
-	function css(ele, decorate) {
-		ele.style.cssText = decorate;
-	}
 
-	function show() {
-		shade.style.display = '';
-		return bone ? bone.style.display = '' : '';
-	}
-
-	function hide() {
-		shade.style.display = 'none';
-		return bone ? bone.style.display = 'none' : '';
+	function shadeTrigger() {
+		if(tub.config['shade']===0) return;
+		shade.style.display = shade.style.display === 'none' ? '' : 'none';
 	}
 
 	function Tub() {
-		this.create();
+		create();
 	}
 
-	Tub.prototype.create = function() {
-		bone = document.createElement('div');
-		bone.id = 'tub-dialog';
-		css(bone, 'position:fixed; top:50%; left:50%; width:300px; height:70px; margin-top:-35px; margin-left:-150px; background-color:#fff; z-index:20160111; display:none;');
-		shade = document.createElement('div');
-		shade.id = 'tub-shade';
-		css(shade, 'position:fixed; width:100%; top:0; bottom:0; background-color:rgba(0,0,0,.4); z-index:20150111; display:none;');
-		document.body.appendChild(shade);
-		document.body.appendChild(bone);
+	Tub.prototype.config = {
+		shade : 0.5,
+		timeout : 0,
+		skin : 'default',
+		btn : 'none',
+		textAlign: 'center'
+	};
+
+	Tub.prototype.set = function(obj) {
+		extend(this.config, obj);
 	};
 
 	Tub.prototype.alert = function(message) {
-		bone.innerHTML = dom['close'] + dom['body'];
-
-		var p = i('tub-message'),
-			a = i('tub-close');
-
+		var bone = fill();
+		var p = bone.querySelector('p.tub-message');
+		
+		p.style.cssText = 'text-align:' + this.config['textAlign'];
 		p.innerHTML = message;
-		css(a, 'text-decoration:none; color:#d5d5d5; display:block; position:absolute; top:10px; right:10px;');
-		css(p, 'padding-left:24px;  line-height:70px; margin:0;');
-		show();
-		on(a, 'click', handleClose);
+		shadeTrigger();
+		if(tub.config['timeout']) {
+			boom(bone);
+		}
+		else {
+			var a = bone.querySelector('a.tub-close');
+			on(a, 'click', handleClose);
+		}
+	};
+
+	function boom(ele) {
+		setTimeout(function() {
+			shadeTrigger();
+			document.body.removeChild(ele);
+		},tub.config['timeout']);
 	}
 
-	function handleClose() {
-		hide();
-		bone.innerHTML = '';
+	function fill() {
+		var bone = document.createElement('div');
+		bone.className = 'tub-dialog tub-skin-' + tub.config['skin'];
+		bone.innerHTML = (tub.config['timeout'] ? '' : dom['close']) + dom['body'];
+		document.body.appendChild(bone);
+		return bone;
 	}
+
+	function create() {
+		shade = document.createElement('div');
+		shade.className = 'tub-shade';
+		shade.style.display = 'none';
+		document.body.appendChild(shade);
+		return shade;
+	}
+
+	function handleClose(e) {
+		var e = e || window.event,
+			t = e.target || e.srcElement;
+		shadeTrigger();
+		document.body.removeChild(t.parentNode);
+	}
+
 	if(typeof define === 'function') {
 		define( [], function() {
 			return new Tub();

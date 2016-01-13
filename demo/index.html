@@ -6,9 +6,16 @@
 	<style>
 		body {margin: 0; padding: 0;}
 	</style>
+	<link rel="stylesheet" href="../src/tub.css">
 </head>
 <body>
 	
 <script src='../src/tub.js'></script>
+<script>
+	window.onload = function() {
+		tub.set({skin:'black', timeout:500, shade:0});
+		tub.alert('请输入正整数');
+	}
+</script>
 </body>
 </html>
