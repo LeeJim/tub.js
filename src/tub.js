@@ -85,18 +85,15 @@
 	var shade;
 	var i = function(id) { return document.getElementById(id); };
 
-
-	function shadeTrigger() {
-		if(tub.config['shade']===0) return;
-		shade.style.display = shade.style.display === 'none' ? '' : 'none';
-	}
+	function showShade() { shade.style.display=''; }
+	function hideShade() { shade.style.display='none'; }
 
 	function Tub() {
 		create();
 	}
 
 	Tub.prototype.config = {
-		shade : 0,
+		shade : 0.6,
 		timeout : 1500,
 		skin : 'black',
 		btn : ['确定', '取消'],
@@ -108,9 +105,13 @@
 	};
 
 	Tub.prototype.alert = function(message) {
-
+		var that = this;
 		var bone = build('alert',message);
-		boom(bone);	
+		boom(bone);
+		return function (config) {
+			if(typeof config !== 'undefined')
+				that.set(config);
+		}	
 	};
 
 	Tub.prototype.confirm = function(config) {
@@ -119,7 +120,7 @@
 		this.set(config);
 		var	bone = build('confirm', config);
 		
-		shadeTrigger();
+		showShade();
 
 		var close = bone.querySelector('a.tub-close'),
 			cancel = i('tub-btn-cancel');
@@ -142,7 +143,7 @@
 		this.set(config);
 		var	bone = build('prompt', config);
 		
-		shadeTrigger();
+		shouShade();
 
 		var close = bone.querySelector('a.tub-close'),
 			cancel = i('tub-btn-cancel'),
@@ -162,7 +163,7 @@
 
 	function boom(ele, trigger) {
 		setTimeout(function() {
-			shadeTrigger();
+			hideShade();
 			document.documentElement.removeChild(ele);
 		}, trigger ? 10 : tub.config['timeout']);
 	}

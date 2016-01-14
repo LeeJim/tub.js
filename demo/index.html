@@ -14,7 +14,17 @@
 <script src='../src/tub.js'></script>
 <script>
 	window.onload = function() {	
-		tub.alert(12);
+		// tub.alert('正在加油中')({
+		// 	timeout : 4000
+		// });
+
+		tub.confirm({
+			title:'感谢信',
+			content: '谢谢你使用tub.js',
+			btn:['哈哈','加油']
+		})(function() {
+			tub.alert('abc');
+		})
 	}
 </script>
 </body>
