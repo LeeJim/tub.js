@@ -78,6 +78,7 @@
 		'footer' : '<div class="tub-footer">%footer%</div>',
 		'close' : '<a href="javascript:;" class="tub-close">x</a>',
 		'input' : '<input type="text" class="tub-input" id="tub-input">',
+		'tips' : '<div class="tub-tips-message">%tips%</div>',
 		'btn0' : '<a class="tub-button tub-btn-blue" id="tub-btn-confirm">%name%</a>',
 		'btn1' : '<a class="tub-button tub-btn-grey" id="tub-btn-cancel">%name%</a>'
 	};
@@ -143,7 +144,7 @@
 		this.set(config);
 		var	bone = build('prompt', config);
 		
-		shouShade();
+		showShade();
 
 		var close = bone.querySelector('a.tub-close'),
 			cancel = i('tub-btn-cancel'),
@@ -161,6 +162,48 @@
 		}
 	};
 
+	Tub.prototype.tips = function(config) {
+
+		if(typeof config !== 'object') config = {};
+		this.set(config);
+		var	bone = build('tips', config);
+		
+		var target = typeof config.from === 'string' ? i(config.from) : config.from;
+		var targetStyle = target.getBoundingClientRect();
+		var w = +bone.getAttribute('tub-width'),
+			h = +bone.getAttribute('tub-height');
+		
+		var setPosition = function() {
+			switch(config.position) {
+				case 'top':
+					return 'left:' + (targetStyle.left-w+50) + 'px; top:' + (targetStyle.top-45) + 'px;';
+				case 'bottom':
+					return 'left:' + (targetStyle.left-w+50) + 'px; top:' + (targetStyle.top+h+10) + 'px;';
+				case 'left' :
+					return 'left:' + (targetStyle.left-w-10) + 'px; top:' + (targetStyle.top) + 'px;';
+				case 'right' :
+					return 'left:' + (targetStyle.left+targetStyle.width+15) + 'px; top:' + (targetStyle.top) + 'px;';
+			}
+		}
+
+		bone.style.cssText += setPosition();
+		
+		if(config.method === 'click') {
+			on(target, config.method, function() {
+				bone.style.display = bone.style.display === '' ? 'none' : '';
+			});
+		}
+		
+		else if(config.method === 'hover') {
+			on(target, 'mouseenter', function() {
+				bone.style.display = '';
+			});
+			on(target, 'mouseleave', function() {
+				bone.style.display = 'none';
+			});
+		}
+
+	}
 	function boom(ele, trigger) {
 		setTimeout(function() {
 			hideShade();
@@ -176,7 +219,7 @@
 		switch(type) {
 			case 'alert':
 				frame.innerHTML = dom['message'].replace('%message%', config);
-				frame.className += 'tub-skin-' + tub.config['skin'];
+				frame.className += 'tub-alert tub-skin-' + tub.config['skin'];
 				break;
 			case 'confirm':
 				var btn0 = dom['btn0'].replace('%name%', tub.config.btn[0]);
@@ -199,17 +242,27 @@
 			case 'msg':
 				break;
 			case 'tips':
+				frame.innerHTML = dom['tips'].replace('%tips%',config.content);
+				frame.className += 'tub-tips ' + 'tub-tips-' + config.position;	
 				break;
 			case 'load':
 				break;
 			case 'login':
 				break;
 		}
-	
+
 		document.documentElement.appendChild(frame);
-		var _ = css(frame);
-		frame.style.cssText = 'margin-left:-' + (parseInt(_.width) || frame.offsetWidth)/2
-							+ 'px; margin-top:-' + (parseInt(_.height) || frame.offsetHeight)/2 + 'px';
+		if(type !== 'tips') {
+			var _ = css(frame);
+			frame.style.cssText = 'margin-left:-' + (parseInt(_.width) || frame.offsetWidth)/2
+								+ 'px; margin-top:-' + (parseInt(_.height) || frame.offsetHeight)/2 + 'px';
+		}
+		else {
+			frame.setAttribute('tub-width', parseInt(css(frame).width) || frame.offsetWidth);
+			frame.setAttribute('tub-height', parseInt(css(frame).height) || frame.offsetHeight);
+			frame.style.display = 'none';
+		}
+		
 		return frame;
 	}
 

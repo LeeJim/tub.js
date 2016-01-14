@@ -7,24 +7,105 @@
 		body {margin: 0; padding: 0;}
 	</style>
 	<link rel="stylesheet" href="../src/tub.css">
+	<style>
+		.tub-msg {
+			position: fixed;
+			min-width: 100px;
+			background-color: #000;
+			filter: alpha(opacity=60);
+			opacity: .6;		
+			color: #fff;
+		}
+		.tub-alert {
+			position: fixed;
+			min-width: 100px;
+			top: 50%; left: 50%;		
+			color: #fff;
+		}
+		.fixed-box {
+			position: fixed;
+			top: 300px;
+			left: 10px;
+		}
+	</style>
 </head>
 <body>
-	
+	<div class="tub-dialog tub-ui tub-msg" style="left:10px; top:10px;">
+		<div class="tub-message">
+			absfsdfsdf
+		</div>
+	</div>
+
+	<div class="tub-dialog tub-ui tub-tips tub-tips-right" style="left:150px; top:10px;">
+		<div class="tub-tips-message">
+			tips-right
+		</div>
+	</div>
+
+	<div class="tub-dialog tub-ui tub-tips tub-tips-left" style="left:280px; top:10px;">
+		<div class="tub-tips-message">
+			tips-left
+		</div>
+	</div>
+
+	<div class="tub-dialog tub-ui tub-tips tub-tips-top" style="left:400px; top:10px;">
+		<div class="tub-tips-message">
+			tips-top
+		</div>
+	</div>
+
+	<div class="tub-dialog tub-ui tub-tips tub-tips-bottom" style="left:580px; top:10px;">
+		<div class="tub-tips-message">
+			tips-bottom
+		</div>
+	</div>
+
+	<div class="tub-dialog tub-ui tub-confirm" style="left:10px; top:100px;">
+		<a class="tub-close">x</a>
+		<div class="tub-title">标题信息</div>
+		<div class="tub-content">你对前端开发有兴趣吗</div>
+		<div class="tub-footer">
+			<a class="tub-button tub-btn-blue">确定</a>
+			<a class="tub-button tub-btn-gray">取消</a>
+		</div>
+	</div>
+
+	<div class="tub-dialog tub-ui tub-prompt" style="left:310px; top:100px;">
+		<a class="tub-close">x</a>
+		<div class="tub-title">标题信息</div>
+		<div class="tub-content">
+			<input type="text" class="tub-input">
+		</div>
+		<div class="tub-footer">
+			<a class="tub-button tub-btn-blue">确定</a>
+			<a class="tub-button tub-btn-gray">取消</a>
+		</div>
+	</div>
+
+	<div class="fixed-box">
+		<a class="tub-button tub-btn-blue">确定</a>
+		<a class="tub-button tub-btn-yellow">确定</a>
+		<a class="tub-button tub-btn-red">确定</a>
+		<a class="tub-button tub-btn-green">确定</a>
+		<a class="tub-button tub-btn-pink">确定</a>
+		<a class="tub-button tub-btn-slivery"  id="target">确定</a>
+		<a class="tub-button tub-btn-violet">确定</a>
+	</div>
+
+
 
 <script src='../src/tub.js'></script>
 <script>
-	window.onload = function() {	
-		// tub.alert('正在加油中')({
-		// 	timeout : 4000
-		// });
+	window.onload = function() {
+		
 
-		tub.confirm({
-			title:'感谢信',
-			content: '谢谢你使用tub.js',
-			btn:['哈哈','加油']
-		})(function() {
-			tub.alert('abc');
+		tub.tips({
+			content:'lalalalallala',
+			from:'target',
+			method: 'click',
+			position: 'right'
 		})
+
 	}
 </script>
 </body>

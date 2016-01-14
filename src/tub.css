@@ -4,7 +4,6 @@
 .tub-dialog {
 	position:fixed;
 	min-width: 260px;
-	top:50%; left:50%;
 	font-family: 'MicroSoft YaHei', 'sans-serif';
 	z-index:20160111;
 }
@@ -53,6 +52,8 @@
 	padding: 0 10px 12px;
 	pointer-events: auto;
 }
+
+.tub-alert, .tub-confirm, .tub-prompt { left: 50%; top: 50%; }
 /* button按钮 */
 .tub-button {
 	display: inline-block;
@@ -95,12 +96,12 @@
 	color: #fff;
 }
 
-.tub-tips {position: fixed;min-width: 50px;background: #ff461f;}
+.tub-tips {position: fixed;min-width: 50px;background: #ff461f; top: none; left: none;}
 .tub-tips:after {content: "";display: block;position: absolute;width: 0; height: 0;border: 5px solid transparent;}
 .tub-tips-right:after {top: 11px; left: -11px;border-right-width: 6px;border-left-width: 6px;border-right-color:#ff461f;border-bottom-color:#ff461f;}
 .tub-tips-left:after {top: 11px; right: -11px;border-right-width: 6px;border-left-width: 6px;border-left-color:#ff461f;border-bottom-color:#ff461f;}
 .tub-tips-top:after { top: 31px; right: 11px;border-top-width: 6px;border-bottom-width: 6px;border-right-color:#ff461f;border-top-color:#ff461f;}
-.tub-tips-bottom:after {top: 31px; right: 11px;border-right-width: 6px;border-left-width: 6px;border-right-color:#ff461f;border-top-color:#ff461f;}
+.tub-tips-bottom:after {top: -11px; right: 11px;border-right-width: 6px;border-bottom-width: 6px;border-right-color:#ff461f;border-bottom-color:#ff461f;}
 
 /* skin */
 .tub-skin-default { background-color:#fff; }
