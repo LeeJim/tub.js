@@ -86,10 +86,10 @@
 		<a class="tub-button tub-btn-blue">确定</a>
 		<a class="tub-button tub-btn-yellow">确定</a>
 		<a class="tub-button tub-btn-red">确定</a>
-		<a class="tub-button tub-btn-green">确定</a>
-		<a class="tub-button tub-btn-pink">确定</a>
-		<a class="tub-button tub-btn-slivery"  id="target">确定</a>
-		<a class="tub-button tub-btn-violet">确定</a>
+		<a class="tub-button tub-btn-green" id="target0">确定</a>
+		<a class="tub-button tub-btn-pink" id="target1">确定</a>
+		<a class="tub-button tub-btn-slivery"  id="target2">确定</a>
+		<a class="tub-button tub-btn-violet" id="target3">确定</a>
 	</div>
 
 
@@ -101,9 +101,31 @@
 
 		tub.tips({
 			content:'lalalalallala',
-			from:'target',
+			from:'target0',
 			method: 'click',
+			position: 'top',
+			color:'blue'
+		})
+
+		tub.tips({
+			content:'lalalalallala',
+			from:'target1',
+			method: 'hover',
 			position: 'right'
+		})
+
+		tub.tips({
+			content:'lalalalallala',
+			from:'target2',
+			method: 'hover',
+			position: 'bottom'
+		})
+
+		tub.tips({
+			content:'lalalalallala',
+			from:'target3',
+			method: 'hover',
+			position: 'left'
 		})
 
 	}

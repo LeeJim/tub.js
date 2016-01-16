@@ -165,41 +165,45 @@
 	Tub.prototype.tips = function(config) {
 
 		if(typeof config !== 'object') config = {};
+		config.color = config.color || '#ccc';
 		this.set(config);
 		var	bone = build('tips', config);
-		
+		var triangle = bone.getElementsByTagName('i')[0];
 		var target = typeof config.from === 'string' ? i(config.from) : config.from;
 		var targetStyle = target.getBoundingClientRect();
-		var w = +bone.getAttribute('tub-width'),
-			h = +bone.getAttribute('tub-height');
-		
+		var w = parseInt(css(bone).width) || bone.offsetWidth,
+			h = parseInt(css(bone).height) || bone.offsetHeight;
+
 		var setPosition = function() {
 			switch(config.position) {
 				case 'top':
-					return 'left:' + (targetStyle.left-w+50) + 'px; top:' + (targetStyle.top-45) + 'px;';
+					return ' left:' + (targetStyle.left-w+22) + 'px; top:' + (targetStyle.top-h-15) + 'px; ' + 'background-color:' + config.color +'; ' ;
 				case 'bottom':
-					return 'left:' + (targetStyle.left-w+50) + 'px; top:' + (targetStyle.top+h+10) + 'px;';
+					return ' left:' + (targetStyle.left-w+22) + 'px; top:' + (targetStyle.top+h+15) + 'px; ' + 'background-color:' + config.color +'; ' ;
 				case 'left' :
-					return 'left:' + (targetStyle.left-w-10) + 'px; top:' + (targetStyle.top) + 'px;';
+					return ' left:' + (targetStyle.left-w-15) + 'px; top:' + (targetStyle.top) + 'px; ' + 'background-color:' + config.color +'; ' ;
 				case 'right' :
-					return 'left:' + (targetStyle.left+targetStyle.width+15) + 'px; top:' + (targetStyle.top) + 'px;';
+					return ' left:' + (targetStyle.right+12) + 'px; top:' + (targetStyle.top) + 'px; ' + 'background-color:' + config.color + '; ' ;
 			}
 		}
-
+		triangle.style.cssText = 'border-' + (config.position == 'right' || config.position == 'left' ? 'bottom' : 'right' )+ '-color:' + config.color + ';';
 		bone.style.cssText += setPosition();
 		
 		if(config.method === 'click') {
 			on(target, config.method, function() {
-				bone.style.display = bone.style.display === '' ? 'none' : '';
+				if(bone.className.indexOf('tub-visibility-hide')>0)
+					bone.className = bone.className.replace('hide','show');
+				else 
+					bone.className =  bone.className.replace('show','hide');
 			});
 		}
 		
 		else if(config.method === 'hover') {
 			on(target, 'mouseenter', function() {
-				bone.style.display = '';
+				bone.className = bone.className.replace('hide','show');
 			});
 			on(target, 'mouseleave', function() {
-				bone.style.display = 'none';
+				bone.className =  bone.className.replace('show','hide');
 			});
 		}
 
@@ -242,8 +246,8 @@
 			case 'msg':
 				break;
 			case 'tips':
-				frame.innerHTML = dom['tips'].replace('%tips%',config.content);
-				frame.className += 'tub-tips ' + 'tub-tips-' + config.position;	
+				frame.innerHTML = dom['tips'].replace('%tips%',config.content) + '<i class="tub-tips-' + config.position + '"></i>';
+				frame.className += 'tub-tips ' + 'tub-tips-' + config.position + ' tub-visibility-hide' + ' tub-tips-' + config.color;	
 				break;
 			case 'load':
 				break;
@@ -252,15 +256,11 @@
 		}
 
 		document.documentElement.appendChild(frame);
+		var _ = css(frame);
+
 		if(type !== 'tips') {
-			var _ = css(frame);
 			frame.style.cssText = 'margin-left:-' + (parseInt(_.width) || frame.offsetWidth)/2
 								+ 'px; margin-top:-' + (parseInt(_.height) || frame.offsetHeight)/2 + 'px';
-		}
-		else {
-			frame.setAttribute('tub-width', parseInt(css(frame).width) || frame.offsetWidth);
-			frame.setAttribute('tub-height', parseInt(css(frame).height) || frame.offsetHeight);
-			frame.style.display = 'none';
 		}
 		
 		return frame;

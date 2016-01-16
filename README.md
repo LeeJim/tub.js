@@ -1,15 +1,15 @@
 # tub.js
-简易弹窗/信息提示 JavaScript Alert/Notification System
+简易弹窗/信息提示(不依赖jQuery) JavaScript Alert/Notification System without jQuery
 
-1. alert方法 (最常用)
+- alert方法 (最常用)
 
 ```javascript
 	tub.alert('正在加油中')({
 			timeout : 4000
-		});
+	});
 ```
 
-2. confirm方法 
+- confirm方法 
 
 ```javascript
 	tub.confirm({
@@ -21,7 +21,7 @@
 	})
 ```
 
-3. prompt方法
+- prompt方法
 
 ```javascript
 	tub.prompt({
@@ -31,6 +31,20 @@
 	})(function(value, input) {
 		console.log(value);
 		input.value = '';
+	})
+```
+
+2016/1/15更新
+
+- tips方法
+
+```javascript
+	tub.tips({
+		content:'lalalalallala', //tips的内容 @string 
+		from:'target0', //绑定的对象 [id/DOM] @string / @DOMElement
+		method: 'hover', //绑定的方法 ['click'/'hover'] @string
+		position: 'top', //绑定元素的位置 ['top'/'right'/'bottom'/'left'] @string
+		color:'blue' //显示的颜色 ['blue'/'#123456'/'rgb(0,1,2)'] @string
 	})
 ```
 
