@@ -1,6 +1,7 @@
 # tub.js
 简易弹窗/信息提示(不依赖jQuery) JavaScript Alert/Notification System without jQuery
-[demo戳我](www.4szu.com/tub)
+
+*[demo戳我](http://www.4szu.com/tub)*
 - alert方法 (最常用)
 
 ```javascript
