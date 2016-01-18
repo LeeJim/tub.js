@@ -107,7 +107,7 @@
 .tub-tips-top:after { top: 23px; right: 11px;border-right-color:#ff461f;border-right-style: solid;}
 .tub-tips-bottom:after {top: -8px; right: 11px;border-right-color:#ff461f;border-right-style: solid;}
 */
-.tub-tips {position: fixed;min-width: 50px;/*background: #ff461f;*/ top: none; left: none; zoom:1; }
+.tub-tips {position: absolute;min-width: 50px;/*background: #ff461f;*/ top: none; left: none; zoom:1; }
 .tub-tips i {content: ""; display: block; position: absolute; width: 0; height: 0; border-width: 8px; border-style: dashed; border-color: transparent;}
 .tub-tips-right i {top: 7px; left: -8px;/*border-bottom-color:#ff461f;*/ border-bottom-style: solid;}
 .tub-tips-left i {top: 7px; right: -8px;/*border-bottom-color:#ff461f;*/border-bottom-style: solid;}
